@@ -96,6 +96,7 @@ const App = () => {
     const [priorityFilter, setPriorityFilter] = useState("All")
     const [sortBy, setSortBy] = useState("")
     const [showForm, setShowForm] = useState(false)
+    const [editingTask, setEditingTask] = useState(null)
 
     const filteredTasks = state.filter((task) => {
         const taskStatusFilter = statusFilter === "All" || task.status === statusFilter
@@ -130,9 +131,30 @@ const App = () => {
         ))
     }
 
+    const onEdit = (task) => {
+        setEditingTask(task)
+        setShowForm(true)
+    }
+
+    const onAdd = () => {
+        setEditingTask(null)
+        setShowForm(true)
+    }
+
+    const onDelete = (task) => {
+        const confirmed = window.confirm(`Are you sure to delete ${task.title}`)
+
+        if (!confirmed) return
+
+        dispatch({
+            type: "DELETE_TASK",
+            payload: task
+        })
+    }
+
     return (
         <div className="bg-[#F8F9FF] w-full min-h-screen">
-            <Navbar showForm={{ showForm, setShowForm }} />
+            <Navbar showForm={{ showForm, setShowForm }} onAdd={onAdd} />
             <div className="px-15 py-4 flex flex-col gap-8">
                 <Summary tasks={state} />
                 <Toolbar
@@ -141,11 +163,19 @@ const App = () => {
                     priorityFilter={{ priorityFilter, setPriorityFilter }}
                     sortBy={{ sortBy, setSortBy }}
                 />
-                <TasksGrid tasks={finalTasks} />
+                <TasksGrid
+                    onDelete={onDelete}
+                    tasks={finalTasks}
+                    onEdit={onEdit}
+                />
             </div>
             {showForm && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[10px] py-8">
-                    <AddTask dispatch={dispatch} setShowForm={setShowForm} />
+                    <AddTask
+                        dispatch={dispatch}
+                        setShowForm={setShowForm}
+                        editingTask={editingTask}
+                    />
                 </div>
             )}
         </div>

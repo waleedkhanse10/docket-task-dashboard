@@ -1,7 +1,7 @@
 import { Trash, X } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-const AddTask = ({ dispatch, setShowForm }) => {
+const AddTask = ({ dispatch, setShowForm, editingTask }) => {
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -13,6 +13,23 @@ const AddTask = ({ dispatch, setShowForm }) => {
         e.preventDefault();
 
         if (title.trim() === "") return
+
+        if (editingTask) {
+            dispatch({
+                type: 'UPDATE_TASK',
+                payload: {
+                    ...editingTask,
+                    title: title.trim(),
+                    description: description.trim(),
+                    priority,
+                    status,
+                    dueDate
+                }
+            })
+
+            setShowForm(false)
+            return
+        }
 
         const newTask = {
             id: crypto.randomUUID(),
@@ -37,10 +54,24 @@ const AddTask = ({ dispatch, setShowForm }) => {
         setShowForm(false)
     }
 
+    useEffect(() => {
+        if (editingTask) {
+            setTitle(editingTask.title)
+            setDescription(editingTask.description)
+            setPriority(editingTask.priority)
+            setStatus(editingTask.status)
+            setDueDate(
+                editingTask.dueDate
+                    ? new Date(editingTask.dueDate).toISOString().split("T")[0]
+                    : ""
+            )
+        }
+    }, [editingTask])
+
     return (
         <div className="py-3 min-h-full">
 
-            <div className="flex flex-col gap-8 bg-white py-8 rounded-lg max-w-[95vw] w-130 max-h-[90vh] overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
+            <div className="flex flex-col gap-5 bg-white py-8 rounded-lg max-w-[95vw] w-130 max-h-[90vh] overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
                 <div className="flex justify-between px-7">
                     <h1 className="text-2xl font-semibold">Add Task</h1>
                     <button
@@ -55,7 +86,7 @@ const AddTask = ({ dispatch, setShowForm }) => {
 
                 <form
                     onSubmit={formHandler}
-                    className="flex flex-col gap-6 px-7"
+                    className="flex flex-col gap-5 px-7"
                 >
                     <div>
                         <label className="text-sm font-medium text-gray-700" htmlFor="title">Title</label> <br />
@@ -80,7 +111,7 @@ const AddTask = ({ dispatch, setShowForm }) => {
                                 setDescription(e.target.value)
                             }}
                             className="w-full bg-[#EFF4FF] py-3 px-4 resize-none rounded-md outline-none"
-                            name="description" id="description" placeholder="Add detail of the task" rows={4}></textarea>
+                            name="description" id="description" placeholder="Add detail of the task" rows={2}></textarea>
                     </div>
 
                     <div className="flex justify-between w-full grow gap-3">
@@ -129,22 +160,16 @@ const AddTask = ({ dispatch, setShowForm }) => {
                             type="date" name="dueDate" id="dueDate" />
                     </div>
 
-                    <div className="flex justify-between items-center bg-[#EFF4FF] py-5 px-8 -mx-7 -mb-8 rounded-b-lg">
+                    <div className="flex items-center justify-between bg-[#EFF4FF] py-5 px-8 -mx-7 -mb-8 rounded-b-lg">
                         <button
+                            onClick={() => setShowForm(false)}
                             type="button"
-                            className="flex gap-2 items-center cursor-pointer hover:bg-[#F5E9EF] py-2 px-4 rounded text-[#BA1A1A]"><Trash size={'18px'}
-                            /> <span>Delete</span></button>
-
-                        <div className="flex gap-2 items-center ">
-                            <button
-                                onClick={() => {
-                                    setShowForm(false)
-                                }}
-                                type="button"
-                                className="bg-white py-2 px-5 rounded-lg cursor-pointer hover:bg-[#EFF4FF] shadow"
-                            >Cancel</button>
-                            <button type="submit" className="bg-indigo-600 py-2 px-5 rounded-lg text-white hover:bg-indigo-700 cursor-pointer shadow">Save Task</button>
-                        </div>
+                            className="bg-white py-2 px-5 rounded-lg cursor-pointer hover:bg-[#EFF4FF] shadow"
+                        >Cancel</button>
+                        <button
+                            type="submit"
+                            className="bg-indigo-600 py-2 px-5 rounded-lg text-white hover:bg-indigo-700 cursor-pointer shadow"
+                        >Save Task</button>
                     </div>
                 </form>
             </div>
