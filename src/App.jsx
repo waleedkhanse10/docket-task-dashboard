@@ -152,6 +152,13 @@ const App = () => {
         })
     }
 
+    const clearFilter = () => {
+        setSearch("")
+        setStatusFilter("All")
+        setPriorityFilter("All")
+        setSortBy("")
+    }
+
     return (
         <div className="bg-[#F8F9FF] w-full min-h-screen">
             <Navbar showForm={{ showForm, setShowForm }} onAdd={onAdd} />
@@ -167,6 +174,8 @@ const App = () => {
                     onDelete={onDelete}
                     tasks={finalTasks}
                     onEdit={onEdit}
+                    allTasks={state}
+                    clearFilters={clearFilter}
                 />
             </div>
             {showForm && (
