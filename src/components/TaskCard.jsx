@@ -38,9 +38,7 @@ const TaskCard = ({ task, onEdit, onDelete }) => {
                 <div className='flex gap-1.5 items-center mt-auto pt-3 border-t border-gray-100'>
                     <Calendar size={'18px'} />
                     <span className='text-[13px]'>{new Date(task.dueDate).toLocaleDateString('en-US', {
-                        month: 'short',
-                        day: 'numeric',
-                        year: 'numeric'
+                        month: 'short', day: 'numeric', year: 'numeric'
                     })}</span>
                 </div>
             </article>

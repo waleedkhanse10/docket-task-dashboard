@@ -5,6 +5,7 @@ import TasksGrid from "./components/TasksGrid"
 import Toolbar from "./components/Toolbar"
 import AddTask from "./components/AddTask"
 
+// Task reducer: handles add, update, delete, status change
 function reducer(state, action) {
     if (action.type === 'ADD_TASK') {
         return [...state, action.payload]
@@ -52,6 +53,7 @@ const App = () => {
         getInitialTasks
     )
 
+    // Persist tasks to localStorage on every change
     useEffect(() => {
         localStorage.setItem('tasks', JSON.stringify(state))
     }, [state])
@@ -65,6 +67,7 @@ const App = () => {
 
     const normalizedSearch = search.trim().toLowerCase()
 
+    // Filter tasks by search, status, and priority
     const filteredTasks = state.filter((task) => {
         const taskStatusFilter = statusFilter === "All" || task.status === statusFilter
         const priorityStatusFilter = priorityFilter === "All" || task.priority === priorityFilter
@@ -75,6 +78,7 @@ const App = () => {
 
     const finalTasks = [...filteredTasks]
 
+    // Sort tasks by due date, priority, or newest
     if (sortBy === "dueDate") {
         finalTasks.sort((a, b) => (
             new Date(a.dueDate) - new Date(b.dueDate)
@@ -82,11 +86,7 @@ const App = () => {
     }
 
     if (sortBy === "priority") {
-        const priorityOrder = {
-            High: 1,
-            Medium: 2,
-            Low: 3,
-        }
+        const priorityOrder = { High: 1, Medium: 2, Low: 3 }
         finalTasks.sort((a, b) => (
             priorityOrder[a.priority] - priorityOrder[b.priority]
         ))

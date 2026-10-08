@@ -1,4 +1,3 @@
-import AddTask from "./AddTask"
 import { SquareCheckBig } from "lucide-react"
 
 const Navbar = ({ showForm: { showForm, setShowForm }, onAdd }) => {    

@@ -9,6 +9,7 @@ const AddTask = ({ dispatch, setShowForm, editingTask }) => {
     const [status, setStatus] = useState("Todo")
     const [dueDate, setDueDate] = useState("")
 
+    // Handle form submit: add new task or update existing
     function formHandler(e) {
         e.preventDefault();
 
@@ -54,6 +55,7 @@ const AddTask = ({ dispatch, setShowForm, editingTask }) => {
         setShowForm(false)
     }
 
+    // Populate form fields when editing a task
     useEffect(() => {
         if (editingTask) {
             setTitle(editingTask.title)
