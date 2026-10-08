@@ -127,9 +127,9 @@ const App = () => {
     }
 
     return (
-        <div className="bg-[#F8F9FF] w-full min-h-screen">
+        <div className="bg-[#F5F7FF] w-full min-h-screen">
             <Navbar showForm={{ showForm, setShowForm }} onAdd={onAdd} />
-            <div className="px-15 py-4 flex flex-col gap-8">
+            <div className="px-4 sm:px-6 md:px-10 py-4 md:py-6 flex flex-col gap-5 md:gap-6">
                 <Summary tasks={state} />
                 <Toolbar
                     search={{ search, setSearch }}

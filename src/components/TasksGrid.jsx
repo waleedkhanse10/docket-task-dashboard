@@ -1,3 +1,4 @@
+import { ClipboardList, SearchX } from "lucide-react"
 import TaskCard from "./TaskCard"
 
 const TasksGrid = ({ tasks, onEdit, onDelete, allTasks, clearFilters }) => {
@@ -5,17 +6,19 @@ const TasksGrid = ({ tasks, onEdit, onDelete, allTasks, clearFilters }) => {
         <>
             {tasks.length === 0 ? (
                 allTasks.length === 0 ? (
-                    <p className="flex justify-center items-center w-full text-3xl font-bold mt-5 text-shadow">
-                        No Tasks yet
-                    </p>
+                    <div className="flex flex-col items-center gap-3 mt-5">
+                        <ClipboardList size={48} className="text-gray-300" />
+                        <p className="text-2xl font-bold text-gray-500">No Tasks yet</p>
+                    </div>
                 ) : (
                     <div className="flex flex-col items-center gap-3">
-                        <p className="flex justify-center items-center w-full text-3xl font-bold mt-5 text-shadow">
-                            No Tasks match your filters
-                        </p>
+                        <div className="flex flex-col items-center gap-3 mt-5">
+                        <SearchX size={48} className="text-gray-300" />
+                        <p className="text-2xl font-bold text-gray-500">No Tasks match your filters</p>
+                    </div>
 
                         <button
-                            className="py-1.5 px-5 text-center text-white mt-6 bg-indigo-600 rounded-lg text-[13px] font-semibold cursor-pointer hover:bg-indigo-700 shadow"
+                            className="py-1.5 px-5 text-center text-white mt-6 bg-indigo-600 rounded-lg text-sm font-semibold cursor-pointer hover:bg-indigo-700 shadow"
                             onClick={clearFilters}
                         >
                             Clear Filter
@@ -23,7 +26,7 @@ const TasksGrid = ({ tasks, onEdit, onDelete, allTasks, clearFilters }) => {
                     </div>
                 )
             ) : (
-                <div className="grid grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
                     {tasks.map((task) => (
                         <TaskCard
                             key={task.id}

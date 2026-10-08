@@ -19,8 +19,8 @@ const Summary = ({ tasks }) => {
 
     return (
         <div>
-            <h1 className='text-2xl font-bold mb-3'>Dashboard</h1>
-            <div className='grid grid-cols-4 gap-5'>
+            <h1 className='text-3xl font-bold mb-4 md:mb-5'>Dashboard</h1>
+            <div className='grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-5'>
                 <SummaryCard taskType={'Total Tasks'} taskLength={tasks.length} />
                 <SummaryCard taskType={'To Do'} taskLength={counts.todo} />
                 <SummaryCard taskType={'In Progress'} taskLength={counts.inProgress} />

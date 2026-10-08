@@ -5,7 +5,7 @@ const PriorityBadge = ({ priority }) => {
         Low: "bg-green-100 text-green-800 border-green-300",
     }
     return (
-        <span className={`py-1 px-3 rounded text-sm font-semibold border ${priorityStyles[priority]}`}>{priority}</span>
+        <span className={`py-1 px-3 rounded text-xs font-semibold border ${priorityStyles[priority]}`}>{priority}</span>
     )
 }
 

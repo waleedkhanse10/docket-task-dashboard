@@ -6,7 +6,7 @@ const StatusBadge = ({status}) => {
     }
 
     return (
-        <span className={`py-1 px-3 rounded font-semibold text-sm border ${statusStyles[status]}`}>
+        <span className={`py-1 px-3 rounded font-semibold text-xs border ${statusStyles[status]}`}>
             {status}
         </span>
     )

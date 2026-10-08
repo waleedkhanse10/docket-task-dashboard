@@ -1,4 +1,4 @@
-import { Trash, X } from "lucide-react"
+import { X } from "lucide-react"
 import { useEffect, useState } from "react"
 
 const AddTask = ({ dispatch, setShowForm, editingTask }) => {
@@ -69,109 +69,96 @@ const AddTask = ({ dispatch, setShowForm, editingTask }) => {
     }, [editingTask])
 
     return (
-        <div className="py-3 min-h-full">
+        <div className="w-full max-w-lg mx-4 max-h-[90vh] flex flex-col bg-white rounded-xl overflow-hidden shadow-2xl">
+            <div className="flex justify-between items-center px-6 py-5 border-b border-gray-100">
+                <h1 className="text-lg font-semibold text-gray-800">Add Task</h1>
+                <button
+                    onClick={() => setShowForm(false)}
+                    className="cursor-pointer p-1 rounded-md hover:bg-gray-100 transition-colors"
+                    aria-label="Close"
+                >
+                    <X size={20} />
+                </button>
+            </div>
 
-            <div className="flex flex-col gap-5 bg-white py-8 rounded-lg max-w-[95vw] w-130 max-h-[90vh] overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
-                <div className="flex justify-between px-7">
-                    <h1 className="text-2xl font-semibold">Add Task</h1>
-                    <button
-                        onClick={() => {
-                            setShowForm(false)
-                        }}
-                        className="cursor-pointer"
-                    >
-                        <X />
-                    </button>
+            <form
+                id="task-form"
+                onSubmit={formHandler}
+                className="flex flex-col gap-5 px-6 py-6 overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden"
+            >
+                <div>
+                    <label className="text-[13px] font-medium text-gray-700" htmlFor="title">Title</label>
+                    <input
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        className="w-full outline-none py-2.5 px-4 bg-[#EFF4FF] rounded-lg mt-1.5 border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                        type="text"
+                        placeholder="Add title"
+                        id="title"
+                        required
+                    />
                 </div>
 
-                <form
-                    onSubmit={formHandler}
-                    className="flex flex-col gap-5 px-7"
-                >
-                    <div>
-                        <label className="text-sm font-medium text-gray-700" htmlFor="title">Title</label> <br />
-                        <input
-                            value={title}
-                            onChange={(e) => {
-                                setTitle(e.target.value)
-                            }}
-                            className="w-full outline-none py-2.5 px-4 bg-[#EFF4FF] rounded-md"
-                            type="text"
-                            placeholder="Add title"
-                            id="title"
-                            required
-                        />
+                <div>
+                    <label className="text-[13px] font-medium text-gray-700" htmlFor="description">Description</label>
+                    <textarea
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        className="w-full bg-[#EFF4FF] py-3 px-4 resize-none rounded-lg outline-none mt-1.5 border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                        name="description" id="description" placeholder="Add detail of the task" rows={2}></textarea>
+                </div>
+
+                <div className="flex flex-col sm:flex-row gap-3">
+                    <div className="w-full">
+                        <label className="text-[13px] font-medium text-gray-700" htmlFor="priority">Priority Level</label>
+                        <select
+                            value={priority}
+                            onChange={(e) => setPriority(e.target.value)}
+                            className="w-full bg-white py-2.5 px-4 cursor-pointer rounded-lg outline-none border border-gray-200 focus:border-indigo-500 transition-all duration-200 mt-1.5"
+                            id="priority"
+                        >
+                            <option value="High">High</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Low">Low</option>
+                        </select>
                     </div>
 
-                    <div>
-                        <label className="text-sm font-medium text-gray-700" htmlFor="description">Description</label> <br />
-                        <textarea
-                            value={description}
-                            onChange={(e) => {
-                                setDescription(e.target.value)
-                            }}
-                            className="w-full bg-[#EFF4FF] py-3 px-4 resize-none rounded-md outline-none"
-                            name="description" id="description" placeholder="Add detail of the task" rows={2}></textarea>
+                    <div className="w-full">
+                        <label className="text-[13px] font-medium text-gray-700" htmlFor="status">Workflow Status</label>
+                        <select
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                            className="w-full bg-white py-2.5 px-4 cursor-pointer rounded-lg outline-none border border-gray-200 focus:border-indigo-500 transition-all duration-200 mt-1.5"
+                            id="status"
+                        >
+                            <option value="Todo">Todo</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Done">Done</option>
+                        </select>
                     </div>
+                </div>
 
-                    <div className="flex justify-between w-full grow gap-3">
-                        <div className="w-full">
-                            <label className="text-sm font-medium text-gray-700" htmlFor="priority">Priority Level</label>
-                            <select
-                                value={priority}
-                                onChange={(e) => {
-                                    setPriority(e.target.value)
-                                }}
-                                required
-                                className="w-full bg-white py-2.5 px-4 cursor-pointer rounded shadow outline-none border border-gray-300 focus-within:ring focus-within:ring-indigo-600 transition-all duration-200"
-                                id="priority"
-                            >
-                                <option value="High">High</option>
-                                <option value="Medium">Medium</option>
-                                <option value="Low">Low</option>
-                            </select>
-                        </div>
+                <div>
+                    <label className="text-[13px] font-medium text-gray-700" htmlFor="dueDate">Target Due Date</label>
+                    <input
+                        value={dueDate}
+                        onChange={(e) => setDueDate(e.target.value)}
+                        className="w-full py-2.5 px-4 outline-none bg-[#EFF4FF] rounded-lg mt-1.5 border border-gray-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                        type="date" name="dueDate" id="dueDate" />
+                </div>
+            </form>
 
-                        <div className="w-full">
-                            <label className="text-sm font-medium text-gray-700" htmlFor="status">Workflow Status</label>
-                            <select
-                                value={status}
-                                onChange={(e) => {
-                                    setStatus(e.target.value)
-                                }}
-                                className="w-full bg-white py-2.5 px-4 cursor-pointer rounded shadow outline-none border border-gray-300 focus-within:ring focus-within:ring-indigo-600 transition-all duration-200"
-                                id="status"
-                            >
-                                <option value="Todo">Todo</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Done">Done</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div className="mt-4">
-                        <label className="text-sm font-medium text-gray-700" htmlFor="dueDate">Target Due Date</label> <br />
-                        <input
-                            value={dueDate}
-                            onChange={(e) => {
-                                setDueDate(e.target.value)
-                            }}
-                            className="w-full py-2.5 px-4 outline-none bg-[#EFF4FF] rounded-md"
-                            type="date" name="dueDate" id="dueDate" />
-                    </div>
-
-                    <div className="flex items-center justify-between bg-[#EFF4FF] py-5 px-8 -mx-7 -mb-8 rounded-b-lg">
-                        <button
-                            onClick={() => setShowForm(false)}
-                            type="button"
-                            className="bg-white py-2 px-5 rounded-lg cursor-pointer hover:bg-[#EFF4FF] shadow"
-                        >Cancel</button>
-                        <button
-                            type="submit"
-                            className="bg-indigo-600 py-2 px-5 rounded-lg text-white hover:bg-indigo-700 cursor-pointer shadow"
-                        >Save Task</button>
-                    </div>
-                </form>
+            <div className="flex items-center justify-end gap-3 bg-[#EFF4FF] px-6 py-5 mt-auto">
+                <button
+                    onClick={() => setShowForm(false)}
+                    type="button"
+                    className="bg-white py-2 px-5 rounded-lg cursor-pointer hover:bg-gray-100 active:scale-95 shadow-sm text-sm font-medium transition-all"
+                >Cancel</button>
+                <button
+                    type="submit"
+                    form="task-form"
+                    className="bg-indigo-600 py-2 px-5 rounded-lg text-white hover:bg-indigo-700 active:scale-95 cursor-pointer shadow-sm text-sm font-medium transition-all"
+                >Save Task</button>
             </div>
         </div>
     )
