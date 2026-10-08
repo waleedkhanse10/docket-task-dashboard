@@ -1,16 +1,88 @@
-# React + Vite
+# Docket – Task Management Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A clean, responsive task management dashboard built with **React** and **Tailwind CSS**. Add, edit, delete, search, filter and sort your tasks. Everything is saved in your browser, so your tasks are still there after a refresh.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Add, edit and delete tasks** with title, description, priority, status and due date
+- **Dashboard summary cards** showing Total, To Do, In Progress and Done counts
+- **Search** tasks by title
+- **Filter** by status (Todo / In Progress / Done) and priority (High / Medium / Low)
+- **Sort** by due date, priority or newest first
+- **Color-coded badges** for priority and status
+- **Empty states** for "no tasks yet" and "no tasks match your filters", with a one-click *Clear Filter* button
+- **Persistent data** using `localStorage`
+- **Fully responsive** layout for mobile, tablet and desktop
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- [React](https://react.dev/) (Hooks: `useState`, `useReducer`, `useEffect`)
+- [Vite](https://vitejs.dev/)
+- [Tailwind CSS v4](https://tailwindcss.com/)
+- [Lucide React](https://lucide.dev/) for icons
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or higher
+- npm
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/waleedkhanse10/React_Projects.git
+
+# Go into the project folder
+cd 04_Task_Management_Dashboard
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+Then open the local URL shown in your terminal (usually `http://localhost:5173`).
+
+### Build for production
+
+```bash
+npm run build
+npm run preview
+```
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── badges/
+│   │   ├── PriorityBadge.jsx
+│   │   └── statusBadge.jsx
+│   ├── AddTask.jsx        # Add / edit task modal form
+│   ├── Navbar.jsx
+│   ├── Summary.jsx        # Dashboard counts
+│   ├── SummaryCard.jsx
+│   ├── TaskCard.jsx
+│   ├── TasksGrid.jsx      # Task list + empty states
+│   └── Toolbar.jsx        # Search, filters, sorting
+├── App.jsx                # Reducer, state and main logic
+├── index.css
+└── main.jsx
+```
+
+## How It Works
+
+- Task state is managed with `useReducer`. The reducer handles `ADD_TASK`, `UPDATE_TASK`, `DELETE_TASK` and `CHANGE_STATUS`.
+- Tasks are loaded from `localStorage` on start and saved again on every change.
+- Search, filter and sort are applied on a copy of the tasks array, so the original data is never changed.
+- The same modal form (`AddTask`) is used for both adding and editing a task.
+
+## Author
+
+**Waleed Khan**
+
+- GitHub: [@waleedkhanse10](https://github.com/waleedkhanse10)
