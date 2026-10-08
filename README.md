@@ -33,10 +33,8 @@ A clean, responsive task management dashboard built with **React** and **Tailwin
 
 ```bash
 # Clone the repository
-git clone https://github.com/waleedkhanse10/React_Projects.git
-
-# Go into the project folder
-cd 04_Task_Management_Dashboard
+git clone https://github.com/waleedkhanse10/docket-task-dashboard.git
+cd docket-task-dashboard
 
 # Install dependencies
 npm install
