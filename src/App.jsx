@@ -1,4 +1,4 @@
-import { useReducer, useState } from "react"
+import { useEffect, useReducer, useState } from "react"
 import Navbar from "./components/Navbar"
 import Summary from "./components/Summary"
 import TasksGrid from "./components/TasksGrid"
@@ -41,55 +41,20 @@ function reducer(state, action) {
 }
 
 const App = () => {
-    const tasks = [
-        {
-            id: crypto.randomUUID(),
-            title: "Design landing page",
-            description: "Create the initial landing page design",
-            priority: "High",
-            status: "In Progress",
-            dueDate: new Date("2026-10-08"),
-            createdAt: new Date("2026-10-01").getTime(),
-        },
-        {
-            id: crypto.randomUUID(),
-            title: "Fix login bug",
-            description: "Investigate and fix the login issue",
-            priority: "High",
-            status: "Todo",
-            dueDate: new Date("2026-10-06"),
-            createdAt: new Date("2026-10-03").getTime(),
-        },
-        {
-            id: crypto.randomUUID(),
-            title: "Update documentation",
-            description: "Update project documentation",
-            priority: "Low",
-            status: "Done",
-            dueDate: new Date("2026-10-05"),
-            createdAt: new Date("2026-09-28").getTime(),
-        },
-        {
-            id: crypto.randomUUID(),
-            title: "Build task form",
-            description: "Create the task creation form",
-            priority: "Medium",
-            status: "Todo",
-            dueDate: new Date("2026-10-10"),
-            createdAt: new Date("2026-10-04").getTime(),
-        },
-        {
-            id: crypto.randomUUID(),
-            title: "Test responsive layout",
-            description: "Check dashboard on different screen sizes",
-            priority: "Medium",
-            status: "In Progress",
-            dueDate: new Date("2026-10-12"),
-            createdAt: new Date("2026-10-05").getTime(),
-        },
-    ]
 
-    const [state, dispatch] = useReducer(reducer, tasks)
+    const getInitialTasks = () => {
+        return JSON.parse(localStorage.getItem('tasks')) || []
+    }
+
+    const [state, dispatch] = useReducer(
+        reducer,
+        undefined,
+        getInitialTasks
+    )
+
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(state))
+    }, [state])
 
     const [search, setSearch] = useState("")
     const [statusFilter, setStatusFilter] = useState("All")
@@ -98,10 +63,12 @@ const App = () => {
     const [showForm, setShowForm] = useState(false)
     const [editingTask, setEditingTask] = useState(null)
 
+    const normalizedSearch = search.trim().toLowerCase()
+
     const filteredTasks = state.filter((task) => {
         const taskStatusFilter = statusFilter === "All" || task.status === statusFilter
         const priorityStatusFilter = priorityFilter === "All" || task.priority === priorityFilter
-        const searchMatch = search.trim().toLowerCase() === "" || (task.title.trim().toLowerCase().includes(search.trim().toLowerCase()))
+        const searchMatch = normalizedSearch === "" || (task.title.trim().toLowerCase().includes(normalizedSearch))
 
         return taskStatusFilter && priorityStatusFilter && searchMatch;
     })
@@ -110,7 +77,7 @@ const App = () => {
 
     if (sortBy === "dueDate") {
         finalTasks.sort((a, b) => (
-            a.dueDate - b.dueDate
+            new Date(a.dueDate) - new Date(b.dueDate)
         ))
     }
 
@@ -126,9 +93,9 @@ const App = () => {
     }
 
     if (sortBy === "newest") {
-        finalTasks.sort((b, a) => (
-            b.createdAt - a.createdAt
-        ))
+        finalTasks.sort((a, b) => (
+            new Date(b.createdAt) - new Date(a.createdAt))
+        )
     }
 
     const onEdit = (task) => {
